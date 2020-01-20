@@ -36,10 +36,9 @@ async function start_question() {
             message: "What is your role in the team?",
             choices: [
                 "Manager",
-                "Employee",
+                // "Employee",
                 "Engineer",
-                "Intern"
-            ]
+                "Intern"]
         },
         {
             type: "input",
@@ -63,14 +62,13 @@ async function start_question() {
             type: "input",
             name: "team_name",
             message: "What do you want as your team name?",
-            when: (data) => (data.new_member)
+            when: (data) => data.new_member === 'false'
         },
         {
             type: "confirm",
             name: "new_member",
             message: "Would you like to add another member?"
-        }
-        ,
+        },
         // Then Once those choices have been made
     ]).then(async function (data) {
         print(data)
@@ -87,14 +85,16 @@ async function start_question() {
         if (role === 'Intern') {
             const new_intern = new Create_Team_Member(name, email, id, role, school);
             const intern_i = `<i class="fas fa-graduation-cap"></i>`
-            await html(name, email, id, role, school, team_name, "School: ", intern_i);
+            const intern_bg_color = `card_d_i`
+            await html(name, email, id, role, school, team_name, "School: ", intern_i, intern_bg_color);
             print(new_intern);
         }
         else if (role === 'Manager') {
             const new_manager = new Create_Team_Member(name, email, id, role, office_number);
             const manager_i = `<i class="fas fa-mug-hot"></i>`
+            const manager_bg_color = `card_d_m`
             print(new_manager);
-            await html(name, email, id, role, office_number, team_name, "Office Number: ", manager_i);
+            await html(name, email, id, role, office_number, team_name, "Office Number: ", manager_i, manager_bg_color);
         }
         else if (role === 'Employee') {
             const new_employee = new Create_Team_Member(name, email, id, role);
@@ -105,26 +105,25 @@ async function start_question() {
             const new_engineer = new Create_Team_Member(name, email, id, role, username);
             print(new_engineer);
             const engineer_i = `<i class="fas fa-ruler-combined"></i>`
-            await html(name, email, id, role, username, team_name, "GitHub: ", engineer_i);
+            const engineer_bg_color = `card_d_e`
+            await html(name, email, id, role, username, team_name, "GitHub: ", engineer_i, engineer_bg_color);
         }
     
         if (new_member) {
             await start_question()
         }
-        else {
+        else if (new_member === false){
             print("Done")
             await finish_html();
         }
     })
 };
 
-    
 
 start_question();
 
 
-
-function Create_Team_Member(name, email, id, role, user_specs, modifier) {
+function Create_Team_Member(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier) {
     this.name = name;
     this.email = email;
     this.id = id;
@@ -150,11 +149,6 @@ function Create_Team_Member(name, email, id, role, user_specs, modifier) {
         const file_name = "employee"
         // read_template(file_name);
     }
-
-
-
-
-
 }
 
 // function read_template(file_name) {
@@ -169,50 +163,53 @@ function Create_Team_Member(name, email, id, role, user_specs, modifier) {
 //     });
 // }
 
-async function html(name, email, id, role, user_specs, team_name, modifier, icon_modifier) {
+async function html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier) {
+    var bg_modifier = bg_modifier;
     if (fs.existsSync('output/team.html')) {
-        await append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier)
+        await append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier)
+        // print(bg_modifier)
         print("File Does Exist")
     }
     else {
-        await create_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier);
+        await create_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier);
+        // print(bg_modifier)
         print("File Does Not Exist")
     }
 }
 
-
-
 // Function to create the pdf from the github information
-async function create_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier) {
+async function create_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier) {
     // Progress Message
     // print("Almost...\n");
     // Try the following things
+    
     try {
+        // print(bg_modifier)
         const header_html = `
-        <!DOCTYPE html>
-        <html lang="en">
-        
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <script src="https://kit.fontawesome.com/cc10a71280.js" crossorigin="anonymous"></script>
-            <link rel="stylesheet" href="../css/style.css">
-            <title>Manager</title>
-        </head>
-        
-        <body>
-        <header>
-            <h1>${team_name}</h1>
-        </header>`
-        
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/cc10a71280.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <title>Manager</title>
+</head>
+
+<body>
+<header>
+    <h1>${team_name}</h1>
+</header>
+<main>`
         await fs.writeFile('output/team.html', header_html, (error) => {
             if (error) {
                 print(error)
             }
         });
-        await append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier)
+        
+        await append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier);
 
 
         // If there is an error catch it
@@ -221,34 +218,32 @@ async function create_html(name, email, id, role, user_specs, team_name, modifie
     }
 }
 
-async function append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier) {
+async function append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier) {
     // const html = data
     
     // const engineer_i = `<i class="fas fa-ruler-combined"></i>`
     const html = `
-    
-    <main>
-        <div id="container_d">
-            <div id="card_d">
-                <div id="card_header_d">
-                    <h2>${name}</h2>
-                    <h2>${icon_modifier}${role}</h2>
+<div id="container_d">
+    <div id="${bg_modifier}">
+        <div id="card_header_d">
+            <h2>${name}</h2>
+            <h2>${icon_modifier}${role}</h2>
+        </div>
+        <div id="card_body_d">
+            <div id="card_info_d">
+                <div id="card_id_d" class="info_d">
+                    <label id="id_l" for="">ID: ${id}</label>
                 </div>
-                <div id="card_body_d">
-                    <div id="card_info_d">
-                        <div id="card_id_d" class="info_d">
-                            <label id="id_l" for="">ID: ${id}</label>
-                        </div>
-                        <div id="card_email_d" class="info_d">
-                            <label id="email_l" for="">Email: ${email}</label>
-                        </div>
-                        <div id="card_user_specific_d" class="info_d">
-                            <label id="user_specific_l" for="">${modifier} ${user_specs}</label> </label>
-                        </div>
-                    </div>
+                <div id="card_email_d" class="info_d">
+                    <label id="email_l" for="">Email: ${email}</label>
+                </div>
+                <div id="card_user_specific_d" class="info_d">
+                    <label id="user_specific_l" for="">${modifier} ${user_specs}</label> </label>
                 </div>
             </div>
-        </div>`
+        </div>
+    </div>
+</div>`
     await fs.appendFile('output/team.html', html, (error) => {
         if (error) {
             print(error)
@@ -259,10 +254,10 @@ async function append_html(name, email, id, role, user_specs, team_name, modifie
 
 async function finish_html(data) {
     const footer_html = `
-    </main>
-    </body>
-    
-    </html>`
+</main>
+</body>
+
+</html>`
     await fs.appendFile('output/team.html', footer_html, (error) => {
         if (error) {
             print(error)

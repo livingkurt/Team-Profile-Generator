@@ -6,13 +6,20 @@ html {
 header {
     text-align: center;
 }
-
 main {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-
+    width: auto;
+    margin: 0px 200px;
 }
+
+/* full_container_d {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+} */
 
 #container_d {
     display: flex;
@@ -40,10 +47,24 @@ i {
     border-radius: 10px;
 }
 
-#card_d {
+#card_d_i {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: rgb(53, 128, 87)
+    /* padding: 10px; */
+}
+
+#card_d_e {
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: rgb(53, 97, 128)
+    /* padding: 10px; */
+}
+
+#card_d_m {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: rgb(128, 53, 53)
     /* padding: 10px; */
 }
 
