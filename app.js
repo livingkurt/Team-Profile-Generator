@@ -11,17 +11,10 @@ const num = 0;
 
 // Initiate terminal based user interface
 
-function start_question(num) {
+async function start_question(num) {
     num++
     inquirer.prompt([
         // Ask user to input username
-
-        {
-            type: "input",
-            name: "num_of_members",
-            message: "How many team members do you want to create?",
-            when: (data) => data.num_of_members === 0
-        },
         {
             type: "input",
             name: "name",
@@ -65,11 +58,21 @@ function start_question(num) {
             name: "username",
             message: "What is your GitHub username?",
             when: (data) => data.role === 'Engineer'
-        }
+        },
+        {
+            type: "confirm",
+            name: "new_member",
+            message: "Would you like to add another member?"
+        },
+        {
+            type: "input",
+            name: "team_name",
+            message: "What do you want as your team name?",
+            when: (data) => data.role === 'Engineer'
+        },
         // Then Once those choices have been made
-    ]).then(function (data) {
+    ]).then(async function (data) {
         print(data)
-        const num_of_members = data.num_of_members;
         const name = data.name;
         const email = data.email;
         const id = data.id;
@@ -77,40 +80,53 @@ function start_question(num) {
         const school = data.school;
         const office_number = data.office_number;
         const username = data.username;
+        const new_member = data.new_member;
+        const team_name = data.team_name;
         if (role === 'Intern') {
             const new_intern = new Create_Team_Member(name, email, id, role, school);
+            const intern_i = `<i class="fas fa-graduation-cap"></i>`
+            await html(name, email, id, role, school, team_name, "School: ", intern_i);
             print(new_intern);
         }
         else if (role === 'Manager') {
             const new_manager = new Create_Team_Member(name, email, id, role, office_number);
+            const manager_i = `<i class="fas fa-mug-hot"></i>`
             print(new_manager);
+            await html(name, email, id, role, office_number, team_name, "Office Number: ", manager_i);
         }
         else if (role === 'Employee') {
             const new_employee = new Create_Team_Member(name, email, id, role);
             print(new_employee);
+            await html(name, email, id, role, office_number, team_name);
         }
         else if (role === 'Engineer') {
             const new_engineer = new Create_Team_Member(name, email, id, role, username);
             print(new_engineer);
+            const engineer_i = `<i class="fas fa-ruler-combined"></i>`
+            await html(name, email, id, role, username, team_name, "GitHub: ", engineer_i);
         }
-        if (num === num_of_members){
-            print("Done")
-            finish_html(data);
+    
+        if (new_member) {
+            await start_question(num)
         }
         else {
-            start_question(num) 
+            print("Done")
+            await finish_html();
         }
+    })
 
-    });
+
+};
+
     
     
-}
+
 
 start_question(num);
 
 
 
-function Create_Team_Member(name, email, id, role, user_specs) {
+function Create_Team_Member(name, email, id, role, user_specs, modifier) {
     this.name = name;
     this.email = email;
     this.id = id;
@@ -118,59 +134,62 @@ function Create_Team_Member(name, email, id, role, user_specs) {
     if (role === 'Intern') {
         this.school = user_specs;
         const file_name = "intern"
-        read_template(file_name);
+        // read_template(file_name);
     }
     else if (role === 'Manager') {
         this.office_number = user_specs;
         const file_name = "manager"
-        read_template(file_name);
+        // read_template(file_name);
     }
     else if (role === 'Engineer') {
         this.username = user_specs;
         const file_name = "engineer"
-        read_template(file_name);
+        // read_template(file_name);
 
     }
     else if (role === 'Employee') {
         this.office_number = user_specs;
         const file_name = "employee"
-        read_template(file_name);
+        // read_template(file_name);
     }
 
 
 
 
-}
-
-function read_template(file_name) {
-    fs.readFile(`./templates/${file_name}.html`, "utf8", function (error, data) {
-
-        if (error) {
-            return console.log(error);
-        }
-
-        console.log(data);
-        html(data);
-    });
-
 
 }
 
-async function html (data) {
+// function read_template(file_name) {
+//     fs.readFile(`./templates/${file_name}.html`, "utf8", function (error, data) {
+
+//         if (error) {
+//             return console.log(error);
+//         }
+
+//         console.log(data);
+//         html(data);
+//     });
+
+
+// }
+
+async function html(name, email, id, role, user_specs, team_name, modifier, icon_modifier) {
     if (fs.existsSync('output/team.html')) {
-        append_html(data)
+        await append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier)
+        print("File Does Exist")
     }
     else {
-        create_html(data);
+        await create_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier);
+        print("File Does Not Exist")
     }
 }
 
 
 
 // Function to create the pdf from the github information
-async function create_html() {
+async function create_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier) {
     // Progress Message
-    print("Almost...\n");
+    // print("Almost...\n");
     // Try the following things
     try {
         const header_html = `
@@ -186,23 +205,54 @@ async function create_html() {
             <title>Manager</title>
         </head>
         
-        <body>`
+        <body>
+        <header>
+            <h1>${team_name}</h1>
+        </header>`
         
+
         await fs.writeFile('output/team.html', header_html, (error) => {
             if (error) {
                 print(error)
             }
         });
+        await append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier)
 
-    
+
         // If there is an error catch it
     } catch (e) {
         print('Your Error', e);
     }
 }
 
-async function append_html(data) {
-    const html = data
+async function append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier) {
+    // const html = data
+    
+    // const engineer_i = `<i class="fas fa-ruler-combined"></i>`
+    const html = `
+    
+    <main>
+        <div id="container_d">
+            <div id="card_d">
+                <div id="card_header_d">
+                    <h2>${name}</h2>
+                    <h2>${icon_modifier}${role}</h2>
+                </div>
+                <div id="card_body_d">
+                    <div id="card_info_d">
+                        <div id="card_id_d" class="info_d">
+                            <label id="id_l" for="">ID: ${id}</label>
+                        </div>
+                        <div id="card_email_d" class="info_d">
+                            <label id="email_l" for="">Email: ${email}</label>
+                        </div>
+                        <div id="card_user_specific_d" class="info_d">
+                            <label id="user_specific_l" for="">${modifier} ${user_specs}</label> </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`
     await fs.appendFile('output/team.html', html, (error) => {
         if (error) {
             print(error)
@@ -222,7 +272,7 @@ async function finish_html(data) {
             print(error)
         }
     });
-    
+
 }
 
 // Python print function
