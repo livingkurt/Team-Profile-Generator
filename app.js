@@ -7,12 +7,12 @@ const inquirer = require("inquirer");
 // const Manager = require("/lib/Manager.js");
 // const Intern = require("/lib/Intern.js");
 const fs = require('fs');
-const num = 0;
+// const num = 0;
 
 // Initiate terminal based user interface
 
-async function start_question(num) {
-    num++
+async function start_question() {
+    // num++
     inquirer.prompt([
         // Ask user to input username
         {
@@ -60,16 +60,17 @@ async function start_question(num) {
             when: (data) => data.role === 'Engineer'
         },
         {
-            type: "confirm",
-            name: "new_member",
-            message: "Would you like to add another member?"
-        },
-        {
             type: "input",
             name: "team_name",
             message: "What do you want as your team name?",
-            when: (data) => data.role === 'Engineer'
+            when: (data) => (data.new_member)
         },
+        {
+            type: "confirm",
+            name: "new_member",
+            message: "Would you like to add another member?"
+        }
+        ,
         // Then Once those choices have been made
     ]).then(async function (data) {
         print(data)
@@ -81,6 +82,7 @@ async function start_question(num) {
         const office_number = data.office_number;
         const username = data.username;
         const new_member = data.new_member;
+        print(new_member)
         const team_name = data.team_name;
         if (role === 'Intern') {
             const new_intern = new Create_Team_Member(name, email, id, role, school);
@@ -107,22 +109,18 @@ async function start_question(num) {
         }
     
         if (new_member) {
-            await start_question(num)
+            await start_question()
         }
         else {
             print("Done")
             await finish_html();
         }
     })
-
-
 };
 
     
-    
 
-
-start_question(num);
+start_question();
 
 
 
@@ -169,8 +167,6 @@ function Create_Team_Member(name, email, id, role, user_specs, modifier) {
 //         console.log(data);
 //         html(data);
 //     });
-
-
 // }
 
 async function html(name, email, id, role, user_specs, team_name, modifier, icon_modifier) {
@@ -274,7 +270,7 @@ async function finish_html(data) {
     });
 
 }
-
+// Hi Kurt so long omg 
 // Python print function
 function print(x) {
     console.log(x)
