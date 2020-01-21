@@ -123,17 +123,18 @@ async function start_question() {
             await start_question()
         }
         else if (new_member === false) {
-            print(team)
-            print(team.length)
+            // print(team)
+            // print(team.length)
             loop_through_array(team)
 
             print("Done")
-            finish_html();
+            await finish_html();
         }
     })
 };
 
 async function loop_through_array() {
+    await create_html();
     for (let i = 0; i < team.length; i++) {
         // print(team[i])
         const name = team[i].name;
@@ -149,8 +150,10 @@ async function loop_through_array() {
         // const office_number = i.office_number;
         // const username = i.username;
         // const new_member = i.new_member;
-        await html(name, email, id, role, icon, background_color, modifier, user_specs);
+        // await html(name, email, id, role, icon, background_color, modifier, user_specs);
+        await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
     }
+    // await finish_html();
 
 }
 
@@ -197,23 +200,23 @@ function Create_Team_Member(name, email, id, role, user_specs, icon, background_
 //     });
 // }
 
-async function html(name, email, id, role, icon, background_color, modifier, user_specs) {
-    // print(team_object)
-    var bg_modifier = bg_modifier;
-    if (fs.existsSync('output/team.html')) {
-        await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
-        // print(bg_modifier)
-        print("File Does Exist")
-    }
-    else {
-        await create_html(name, email, id, role, icon, background_color, modifier, user_specs);
-        // print(bg_modifier)
-        print("File Does Not Exist")
-    }
-}
+// async function html(name, email, id, role, icon, background_color, modifier, user_specs) {
+//     // print(team_object)
+//     var bg_modifier = bg_modifier;
+//     if (fs.existsSync('output/team.html')) {
+//         await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
+//         // print(bg_modifier)
+//         print("File Does Exist")
+//     }
+//     else {
+//         await create_html(name, email, id, role, icon, background_color, modifier, user_specs);
+//         // print(bg_modifier)
+//         print("File Does Not Exist")
+//     }
+// }
 
 // Function to create the pdf from the github information
-async function create_html(name, email, id, role, icon, background_color, modifier, user_specs) {
+async function create_html() {
     // Progress Message
     // print("Almost...\n");
     // Try the following things
@@ -244,7 +247,7 @@ async function create_html(name, email, id, role, icon, background_color, modifi
             }
         });
 
-        await append_html(name, email, id, role, icon, background_color, modifier, user_specs);
+        // await append_html(name, email, id, role, icon, background_color, modifier, user_specs);
 
 
         // If there is an error catch it
