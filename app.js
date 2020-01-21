@@ -2,10 +2,9 @@
 
 // Calling inquirer for the terminal based interface
 const inquirer = require("inquirer");
-// const Employee = require("/lib/Employee.js");
-// const Engineer = require("/lib/Engineer.js");
-// const Manager = require("/lib/Manager.js");
-// const Intern = require("/lib/Intern.js");
+// const Engineer = require("./lib/Engineer");
+// const Intern = require("./lib/Intern");
+// const Manager = require("./lib/Manager");
 const fs = require('fs');
 
 // const num = 0;
@@ -83,12 +82,13 @@ async function start_question() {
         const username = data.username;
         const new_member = data.new_member;
         // print(new_member)
-        const team_name = data.team_name;
+        // const team_name = data.team_name;
         if (role === 'Intern') {
             const intern_i = `<i class="fas fa-graduation-cap"></i>`
             const intern_bg_color = `card_d_i`
-            const new_intern = new Create_Team_Member(name, email, id, role, school, intern_i, intern_bg_color);
-            
+            const intern_modifier = `Office Number: `
+            const new_intern = new Create_Team_Member(name, email, id, role, school, intern_i, intern_bg_color, intern_modifier);
+            // const employee = new Intern(name, id, email, school);
             await team.push(new_intern);
             // await html(name, email, id, role, school, team_name, "School: ", intern_i, intern_bg_color, team_object);
             print(new_intern);
@@ -97,68 +97,92 @@ async function start_question() {
         else if (role === 'Manager') {
             const manager_i = `<i class="fas fa-mug-hot"></i>`
             const manager_bg_color = `card_d_m`
-            const new_manager = new Create_Team_Member(name, email, id, role, office_number, manager_i, manager_bg_color);
-            
+            const manager_modifier = `Office Number: `
+            const new_manager = new Create_Team_Member(name, email, id, role, office_number, manager_i, manager_bg_color, manager_modifier);
+            // const employee = new Manager(name, id, email, office_number);
+
             await team.push(new_manager);
             // print(new_manager);
             print(team)
             // await html(name, email, id, role, office_number, team_name, "Office Number: ", manager_i, manager_bg_color, team_object);
         }
-        // else if (role === 'Employee') {
-        //     const new_employee = new Create_Team_Member(name, email, id, role);
-        //     team_object.emp = new_employee;
-        //     print(new_employee);
-        //     await html(name, email, id, role, office_number, team_name);
-        // }
         else if (role === 'Engineer') {
-            
+
             // print(new_engineer);
             const engineer_i = `<i class="fas fa-ruler-combined"></i>`
             const engineer_bg_color = `card_d_e`
-            const new_engineer = new Create_Team_Member(name, email, id, role, username, engineer_i, engineer_bg_color);
+            const engineer_modifier = `GitHub: `
+            const new_engineer = new Create_Team_Member(name, email, id, role, username, engineer_i, engineer_bg_color, engineer_modifier);
+            // const employee = new Engineer(name, id, email, office_number);
             await team.push(new_engineer);
             print(team)
             // await html(name, email, id, role, username, team_name, "GitHub: ", engineer_i, engineer_bg_color, team_object);
         }
-    
+
         if (new_member) {
             await start_question()
         }
-        else if (new_member === false){
+        else if (new_member === false) {
+            print(team)
+            print(team.length)
+            loop_through_array(team)
+
             print("Done")
-            // await finish_html();
+            finish_html();
         }
     })
 };
+
+async function loop_through_array() {
+    for (let i = 0; i < team.length; i++) {
+        // print(team[i])
+        const name = team[i].name;
+        // print(icon)
+        const email = team[i].email;
+        const id = team[i].id;
+        const role = team[i].role;
+        const icon = team[i].icon;
+        // print(icon)
+        const background_color = team[i].background_color;
+        const modifier = team[i].modifier;
+        const user_specs = team[i].user_specs;
+        // const office_number = i.office_number;
+        // const username = i.username;
+        // const new_member = i.new_member;
+        await html(name, email, id, role, icon, background_color, modifier, user_specs);
+    }
+
+}
 
 
 start_question();
 
 
-function Create_Team_Member(name, email, id, role, user_specs, icon, background_color) {
+function Create_Team_Member(name, email, id, role, user_specs, icon, background_color, modifier) {
     this.name = name;
     this.email = email;
     this.id = id;
     this.role = role;
     this.icon = icon;
     this.background_color = background_color;
-    if (role === 'Intern') {
-        this.school = user_specs;
-        const file_name = "intern"
-        
-        // read_template(file_name);
-    }
-    else if (role === 'Manager') {
-        this.office_number = user_specs;
-        const file_name = "manager"
-        // read_template(file_name);
-    }
-    else if (role === 'Engineer') {
-        this.username = user_specs;
-        const file_name = "engineer"
-        // read_template(file_name);
-    }
-    // this.team_object
+    this.modifier = modifier;
+    this.user_specs = user_specs;
+    // if (role === 'Intern') {
+    //     this.user_specs = user_specs;
+    //     // const file_name = "intern"
+    //     // read_template(file_name);
+    // }
+    // else if (role === 'Manager') {
+    //     this.user_specs = user_specs;
+    //     // const file_name = "manager"
+    //     // read_template(file_name);
+    // }
+    // else if (role === 'Engineer') {
+    //     this.user_specs = user_specs;
+    //     // const file_name = "engineer"
+    //     // read_template(file_name);
+    // }
+    // // this.team_object
 }
 
 // function read_template(file_name) {
@@ -173,27 +197,27 @@ function Create_Team_Member(name, email, id, role, user_specs, icon, background_
 //     });
 // }
 
-async function html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier) {
+async function html(name, email, id, role, icon, background_color, modifier, user_specs) {
     // print(team_object)
     var bg_modifier = bg_modifier;
     if (fs.existsSync('output/team.html')) {
-        await append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier)
+        await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
         // print(bg_modifier)
         print("File Does Exist")
     }
     else {
-        await create_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier);
+        await create_html(name, email, id, role, icon, background_color, modifier, user_specs);
         // print(bg_modifier)
         print("File Does Not Exist")
     }
 }
 
 // Function to create the pdf from the github information
-async function create_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier) {
+async function create_html(name, email, id, role, icon, background_color, modifier, user_specs) {
     // Progress Message
     // print("Almost...\n");
     // Try the following things
-    
+
     try {
         // print(bg_modifier)
         const header_html = `
@@ -211,7 +235,7 @@ async function create_html(name, email, id, role, user_specs, team_name, modifie
 
 <body>
 <header>
-    <h1>${team_name}</h1>
+    <h1>Team Name</h1> 
 </header>
 <main>`
         await fs.writeFile('output/team.html', header_html, (error) => {
@@ -219,26 +243,26 @@ async function create_html(name, email, id, role, user_specs, team_name, modifie
                 print(error)
             }
         });
-        
-        await append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier);
+
+        await append_html(name, email, id, role, icon, background_color, modifier, user_specs);
 
 
         // If there is an error catch it
     } catch (e) {
-        print('Your Error', e);
+        print(e);
     }
 }
 
-async function append_html(name, email, id, role, user_specs, team_name, modifier, icon_modifier, bg_modifier) {
+async function append_html(name, email, id, role, icon, background_color, modifier, user_specs) {
     // const html = data
-    
+
     // const engineer_i = `<i class="fas fa-ruler-combined"></i>`
     const html = `
 <div id="container_d">
-    <div id="${bg_modifier}">
+    <div id="${background_color}">
         <div id="card_header_d">
             <h2>${name}</h2>
-            <h2>${icon_modifier}${role}</h2>
+            <h2>${icon}${role}</h2>
         </div>
         <div id="card_body_d">
             <div id="card_info_d">
@@ -263,7 +287,7 @@ async function append_html(name, email, id, role, user_specs, team_name, modifie
 }
 
 
-async function finish_html(data) {
+async function finish_html() {
     const footer_html = `
 </main>
 </body>
