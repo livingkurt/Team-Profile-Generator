@@ -1,17 +1,30 @@
 html {
     font-family: Futura;
+    height: 100%;
+}
+
+body {
+    margin: 0px;
+    height: 100%;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+
 }
 
 
 header {
     text-align: center;
+    margin-top: 0px;
+
 }
 main {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
     width: auto;
-    margin: 0px 200px;
+    margin: 0px 100px;
+    margin-bottom: 50px;
 }
 
 /* full_container_d {
@@ -23,8 +36,39 @@ main {
 
 #container_d {
     display: flex;
+    margin: 30px 0px;
     /* justify-content: space-evenly; */
 }
+h1 {
+    /* margin-bottom: 50px; */
+    padding: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-top: 2px solid #dadada;
+    background-color: #6d6d6d;
+    margin-top: 0px;
+    color: white;
+    font-size: 58px;
+    
+}
+
+    /* display: flex; */
+    /* min-height: 70vh; */
+    /* flex-direction: column; */
+    /* height: 0px; */
+    /* background: black; */
+    /* bottom: 0; */
+    /* color: white; */
+    /* display: flex; */
+    /* grid-row: 2; */
+    /* height: 80px; */
+    /* position: absolute; */
+    /* width: 100%; */
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+    /* border-top: 2px solid #dadada; */
+    /* background-color: #6d6d6d; */
+    /* position: absolute; */
+    /* bottom: 0; */
+    /* width: 100%; */
 
 h2 {
     color: white;
@@ -36,6 +80,38 @@ label {
 
 i {
     margin-right: 10px;
+}
+
+footer {
+    /* flex: 1; */
+    /* height: 50px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: #00A;
+  z-index: 150; */
+    /* position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 0px; */
+    /* background: black;    */
+    /* bottom: 0;
+    color: white;
+    display: flex;
+    grid-row: 2;
+    height: 80px;
+    position: absolute;
+    width: 100%; */
+    /* padding: 75px; */
+    /* position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 225px;
+    width: 100%;
+    overflow: hidden; */
+
 }
 
 #card_header_d {
@@ -72,10 +148,12 @@ i {
 
 #card_body_d {
     /* margin: 20px; */
-    padding: 20px;
+    /* padding: 20px; */
     /* background-color: #f3f3f3; */
     background-color: #f6f7f8;
     border-radius: 0px 0px 10px 10px;
+    width: 250px;
+    padding: 20px;
     
 }
 
