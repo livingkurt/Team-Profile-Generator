@@ -68,7 +68,7 @@ async function start_questions() {
         // Assign Manager Role to Variable
         const role = 'Manager';
         // Assign Manager Icon to Variable
-        const manager_i = `<i class="fas fa-mug-hot"></i>`
+        const manager_i = `fas fa-mug-hot`
         // Assign Manager Bg Color to Variable
         const manager_bg_color = `card_d_m`
         // Assign Manager Modifier to Variable
@@ -77,7 +77,8 @@ async function start_questions() {
         const new_manager = new Create_Team_Member(name, email, id, role, office_number, manager_i, manager_bg_color, manager_modifier, team_name);
         // Add the Manager Object to the team array
         await team.push(new_manager);
-
+        // Print the Team in this current moment
+        print(team)
         // Start the questions for the employees that will loop back around as long as you would like it to
         if (password === "admin") {
             // Print the Team in this current moment
@@ -161,15 +162,15 @@ async function loop_questions() {
         // Assign Employee school to Variable
         const school = data.school;
         // Assign Employee username to Variable
-        const username_url = `https://github.com/livingkurt/${data.username}`;
-        // Assign Employee username to Variable
         const username = data.username;
+        // Assign Employee username inside of a link tag to Variable
+        const username_url = `<a target = "_blank" href="https://github.com/${username}/">sdfh</a>`;
         // Assign the new member outcome to Variable
         const new_member = data.new_member;
         // If the user chose intern as their role
         if (role === 'Intern') {
             // Assign Intern Icon to Variable
-            const intern_i = `<i class="fas fa-graduation-cap"></i>`
+            const intern_i = `fas fa-graduation-cap`
             // Assign Intern Bg Color to Variable
             const intern_bg_color = `card_d_i`
             // Assign Intern Modifier to Variable
@@ -183,13 +184,13 @@ async function loop_questions() {
         }
         else if (role === 'Engineer') {
             // Assign Engineer Icon to Variable
-            const engineer_i = `<i class="fas fa-ruler-combined"></i>`
+            const engineer_i = `fas fa-ruler-combined`
             // Assign Engineer Bg Color to Variable
             const engineer_bg_color = `card_d_e`
             // Assign Engineer Modifier to Variable
             const engineer_modifier = `GitHub: `
             // Create an Object for Engineer
-            const new_engineer = new Create_Team_Member(name, email, id, role, username, engineer_i, engineer_bg_color, engineer_modifier);
+            const new_engineer = new Create_Team_Member(name, email, id, role, username_url, engineer_i, engineer_bg_color, engineer_modifier);
             // Add the Engineer Object to the team array
             await team.push(new_engineer);
             // Print the Team in this current moment
@@ -205,10 +206,8 @@ async function loop_questions() {
         else if (new_member === false) {
             // Loop through team array and create html from that infomation
             await loop_through_array(team)
-            
-            await setTimeout(finish_html, 2000);
-            // await Task.Delay(5000);
-            // await finish_html();
+            // Wait 1 seconds then add the ending tags to your html
+            await setTimeout(finish_html, 1000);
         }
     })
 };
@@ -218,6 +217,8 @@ async function loop_questions() {
 async function loop_through_array() {
     // Create html with adding the Team name to the header
     await create_html(team[0].team_name);
+    // Status Update for User
+    print(`\n<<<Creating Team Profiles>>>\n`)
     // Loop through all of the employee objects in array
     for (let i = 0; i < team.length; i++) {
         // Assign Name to Variable
@@ -283,7 +284,7 @@ async function create_html(team_name) {
 
 <body>
 <header>
-    <h1>${team_name}</h1> 
+    <h1>Team: ${team_name}</h1> 
 </header>
 <main>`
         // Create html file with header html string
@@ -306,7 +307,7 @@ async function append_html(name, email, id, role, icon, background_color, modifi
         <div id="${background_color}">
             <div id="card_header_d">
                 <h2>${name}</h2>
-                <h2>${icon}${role}</h2>
+                <h2><i class="${icon}"></i>${role}</h2>
             </div>
             <div id="card_body_d">
                 <div id="card_info_d">
@@ -317,7 +318,7 @@ async function append_html(name, email, id, role, icon, background_color, modifi
                         <label id="email_l" for="">Email: ${email}</label>
                     </div>
                     <div id="card_user_specific_d" class="info_d">
-                        <label id="user_specific_l" for="">${modifier} ${user_specs}</label> </label>
+                        <label id="user_specific_l" for="">${modifier} ${user_specs}</label>
                     </div>
                 </div>
             </div>
@@ -348,7 +349,7 @@ async function finish_html() {
         }
     });
     print("\n<<<Team Has Been Created>>>\n")
-    print("\n<<<Done>>>")
+    print("\n<<<Done>>>\n")
 
 }
 
