@@ -111,22 +111,21 @@ async function start_questions() {
         const new_manager = new Manager(name, id, email, office_number, role, manager_i, manager_bg_color, manager_modifier, team_name);
         // Add the Manager Object to the team array
         await team.push(new_manager);
-        // Print the Team in this current moment
-        print(team)
+        
         // Start the questions for the employees that will loop back around as long as you would like it to
         if (password === "admin") {
             // Print the Team in this current moment
-            // print(team)
+            print(team)
+            // Section Text
             print(`\n<<<Team Created>>>\n`)
             print(`<<<Manager Created>>>\n`)
             await loop_questions();
         }
-        else {
-            ("You do not have access to create a team")
+        else if (password != "admin") {
+            print("\n<<<You do not have access to create a team>>>\n\n<<<Enter Password Again>>>\n")
+            start_questions()
         }
-
     })
-
 };
 
 // Start questions for manager
@@ -134,6 +133,7 @@ start_questions();
 
 // Initiate terminal based user interface
 async function loop_questions() {
+    // Section Text
     print("<Create Employee>")
     inquirer.prompt([
         // Ask user to input username
@@ -234,6 +234,7 @@ async function loop_questions() {
         }
         // If the user chooses to add another team member
         if (new_member) {
+            // Section Text
             print(`\n<<<Employee Created>>>\n`)
             // Start employee questions again
             await loop_questions()
@@ -253,7 +254,7 @@ async function loop_questions() {
 async function loop_through_array(team) {
     // Create html with adding the Team name to the header
     await create_html(team[0].team_name);
-    // Status Update for User
+    // Section Text
     print(`\n<<<Creating Team Profiles>>>\n`)
     // Loop through all of the employee objects in array
     for (let i = 0; i < team.length; i++) {
@@ -405,7 +406,9 @@ async function finish_html() {
             print(error)
         }
     });
+    // Section Text
     print("\n<<<Team Has Been Created>>>\n")
+    // Section Text
     print("\n<<<Done>>>\n")
 
 }
