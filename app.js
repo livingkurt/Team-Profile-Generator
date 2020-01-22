@@ -2,10 +2,14 @@
 
 // Calling inquirer for the terminal based interface
 const inquirer = require("inquirer");
+const Engineer = require("./lib/Engineer");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
 // Calling fs to modify/create files
 const fs = require('fs');
 // Create an empty array that the team members will be added to
 const team = [];
+// let user_specs = ``;
 
 // Ask Questions for the Manager Only
 async function start_questions() {
@@ -74,7 +78,8 @@ async function start_questions() {
         // Assign Manager Modifier to Variable
         const manager_modifier = `Office Number: `
         // Create an Object for manager
-        const new_manager = new Create_Team_Member(name, email, id, role, office_number, manager_i, manager_bg_color, manager_modifier, team_name);
+        // const new_manager = new Create_Team_Member(name, email, id, role, office_number, manager_i, manager_bg_color, manager_modifier, team_name);
+        const new_manager = new Manager(name, id, email, office_number, role, manager_i, manager_bg_color, manager_modifier, team_name);
         // Add the Manager Object to the team array
         await team.push(new_manager);
         // Print the Team in this current moment
@@ -176,7 +181,8 @@ async function loop_questions() {
             // Assign Intern Modifier to Variable
             const intern_modifier = `School: `
             // Create an Object for Intern
-            const new_intern = new Create_Team_Member(name, email, id, role, school, intern_i, intern_bg_color, intern_modifier);
+            // const new_intern = new Create_Team_Member(name, email, id, role, school, intern_i, intern_bg_color, intern_modifier);
+            const new_intern = new Intern(name, id, email, school, role, intern_i, intern_bg_color, intern_modifier);
             // Add the Intern Object to the team array
             await team.push(new_intern);
             // Print the Team in this current moment
@@ -190,7 +196,8 @@ async function loop_questions() {
             // Assign Engineer Modifier to Variable
             const engineer_modifier = `GitHub: `
             // Create an Object for Engineer
-            const new_engineer = new Create_Team_Member(name, email, id, role, username_url, engineer_i, engineer_bg_color, engineer_modifier);
+            // const new_engineer = new Create_Team_Member(name, email, id, role, username_url, engineer_i, engineer_bg_color, engineer_modifier);
+            const new_engineer = new Engineer(name, id, email, username_url, role, engineer_i, engineer_bg_color, engineer_modifier);
             // Add the Engineer Object to the team array
             await team.push(new_engineer);
             // Print the Team in this current moment
@@ -214,7 +221,7 @@ async function loop_questions() {
 
 
 // Loop through team array and create html from that infomation
-async function loop_through_array() {
+async function loop_through_array(team) {
     // Create html with adding the Team name to the header
     await create_html(team[0].team_name);
     // Status Update for User
@@ -235,34 +242,55 @@ async function loop_through_array() {
         const background_color = team[i].background_color;
         // Assign modifier to Variable
         const modifier = team[i].modifier;
-        // Assign user_specs to Variable
-        const user_specs = team[i].user_specs;
+        // // Assign user_specs to Variable
+        // const user_specs = team[i].user_specs;
+        if (role === "Intern") {
+            // Assign user_specs to Variable
+            const user_specs = team[i].school;
+            await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
+            // return user_specs;
+        }
+        else if (role === "Engineer"){
+            // Assign user_specs to Variable
+            const user_specs = team[i].github;
+            await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
+            // return user_specs;
+        }
+        else if (role === "Manager"){
+            // Assign user_specs to Variable
+            const user_specs = team[i].officeNumber;
+            await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
+            // return user_specs;
+        }
+        
+        
+        
         // Add all employee information to html file
-        await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
+        // await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
     }
 }
 
-// Object Creator for each new employee member
-function Create_Team_Member(name, email, id, role, user_specs, icon, background_color, modifier, team_name) {
-    // Assign team name to object
-    this.team_name = team_name
-    // Assign name to object
-    this.name = name;
-    // Assign email to object
-    this.email = email;
-    // Assign id to object
-    this.id = id;
-    // Assign role to object
-    this.role = role;
-    // Assign icon to object
-    this.icon = icon;
-    // Assign background_color to object
-    this.background_color = background_color;
-    // Assign modifier to object
-    this.modifier = modifier;
-    // Assign user_specs to object
-    this.user_specs = user_specs;
-}
+// // Object Creator for each new employee member
+// function Create_Team_Member(name, email, id, role, user_specs, icon, background_color, modifier, team_name) {
+//     // Assign team name to object
+//     this.team_name = team_name
+//     // Assign name to object
+//     this.name = name;
+//     // Assign email to object
+//     this.email = email;
+//     // Assign id to object
+//     this.id = id;
+//     // Assign role to object
+//     this.role = role;
+//     // Assign icon to object
+//     this.icon = icon;
+//     // Assign background_color to object
+//     this.background_color = background_color;
+//     // Assign modifier to object
+//     this.modifier = modifier;
+//     // Assign user_specs to object
+//     this.user_specs = user_specs;
+// }
 
 // Create html with adding the Team name to the header
 async function create_html(team_name) {
