@@ -1,15 +1,28 @@
 # Team-Profile-Generator
 
 
-
+![Developer-Profile-Generator](images/pic.png)
 
  [Link to Sample of HTML](https://livingkurt.github.io/Team-Profile-Generator/)
 
+
+ 
+
 ## About The Project
 
-I created a Github pdf creator that takes takes in 2 pieces of of information
-* Your Github Username
-* Your Favorite Color
+I created a Github pdf creator that takes takes in team information and creates an html
+
+* Team Name
+* Employee Name
+* Employee Email
+* Employee Id
+* Employee Role
+* If youre an Intern
+    * What School you went to
+* If youre an Engineer
+    * GitHub Username
+* If youre an Manger
+    * Office Number
 
 Then produces a sleek and clean pdf of all your github user information to be used with clients and interviews.
 
@@ -32,12 +45,11 @@ Then produces a sleek and clean pdf of all your github user information to be us
 <!-- GETTING STARTED -->
 ## Getting Started
 
-
-<!-- ![Gif](images/demonstration.gif) -->
 ### Open up your terminal
 * Change directory to the repo directory
 * Type into terminal "node app.js"
 * Press Enter
+
 ### You will be asked asked to enter the admin password (password = admin)
 
 * If password answered incorrectly you will not be given access to continue
@@ -49,6 +61,15 @@ Then produces a sleek and clean pdf of all your github user information to be us
 * If you type no
     * Then it will create a team.html file in the output folder with all of the information that was asked of you
 
-Sample Screenshot
 
-![Developer-Profile-Generator](images/pic.png)
+
+# Demonstration of Functionality
+
+### Creating Manager
+![Developer-Profile-Generator](images/Manager.gif)
+### Creating Engineer
+![Developer-Profile-Generator](images/Engineer.gif)
+### Creating Intern
+![Developer-Profile-Generator](images/Intern.gif)
+
+
