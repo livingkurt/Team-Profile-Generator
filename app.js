@@ -2,43 +2,16 @@
 
 // Calling inquirer for the terminal based interface
 const inquirer = require("inquirer");
+// Calling Engineer File
 const Engineer = require("./lib/Engineer");
+// Calling Manager File
 const Manager = require("./lib/Manager");
+// Calling Intern File
 const Intern = require("./lib/Intern");
 // Calling fs to modify/create files
 const fs = require('fs');
 // Create an empty array that the team members will be added to
 const team = [];
-// let user_specs = ``;
-const is_yes_or_no = async (input) => {
-    if (input !== 'y' || input !== 'n') {
-       return 'Incorrect asnwer';
-    }
-    return true;
- };
-
- // let user_specs = ``;
-const is_string = async (input) => {
-    if (!input.match(/^[0-9a-z]+$/)){
-        return true;
-    }
-    else {
-        return false;
-    }
- };
-
-// async function is_string (input) {
-//     // if (typeof input !== "string") {
-//     //    return 'Please Type in Valid Name (No Special Characters or Numbers';
-//     // }
-//     // return true;
-//     if (!input.match(/^[0-9a-z]+$/)){
-//         return true;
-//     }
-//     else {
-//         return false;
-//     }
-//  };
 
 
 // Ask Questions for the Manager Only
@@ -119,6 +92,7 @@ async function start_questions() {
             // Section Text
             print(`\n<<<Team Created>>>\n`)
             print(`<<<Manager Created>>>\n`)
+            // Loop Back Through questions
             await loop_questions();
         }
         else if (password != "admin") {
@@ -273,55 +247,26 @@ async function loop_through_array(team) {
         // Assign modifier to Variable
         const modifier = team[i].modifier;
         // // Assign user_specs to Variable
-        // const user_specs = team[i].user_specs;
         if (role === "Intern") {
             // Assign user_specs to Variable
             const user_specs = team[i].school;
+            // Add all employee information to html file
             await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
-            // return user_specs;
         }
         else if (role === "Engineer"){
             // Assign user_specs to Variable
             const user_specs = team[i].github;
+            // Add all employee information to html file
             await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
-            // return user_specs;
         }
         else if (role === "Manager"){
             // Assign user_specs to Variable
             const user_specs = team[i].officeNumber;
+            // Add all employee information to html file
             await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
-            // return user_specs;
         }
-        
-        
-        
-        // Add all employee information to html file
-        // await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
     }
 }
-
-// // Object Creator for each new employee member
-// function Create_Team_Member(name, email, id, role, user_specs, icon, background_color, modifier, team_name) {
-//     // Assign team name to object
-//     this.team_name = team_name
-//     // Assign name to object
-//     this.name = name;
-//     // Assign email to object
-//     this.email = email;
-//     // Assign id to object
-//     this.id = id;
-//     // Assign role to object
-//     this.role = role;
-//     // Assign icon to object
-//     this.icon = icon;
-//     // Assign background_color to object
-//     this.background_color = background_color;
-//     // Assign modifier to object
-//     this.modifier = modifier;
-//     // Assign user_specs to object
-//     this.user_specs = user_specs;
-// }
-
 // Create html with adding the Team name to the header
 async function create_html(team_name) {
     // Try creating html file
