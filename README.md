@@ -3,7 +3,7 @@
 
 
 
- [Link to Sample of HTML](https://livingkurt.github.io/Team-Profile-Generator/.)
+ [Link to Sample of HTML](https://livingkurt.github.io/Team-Profile-Generator/)
 
 ## About The Project
 

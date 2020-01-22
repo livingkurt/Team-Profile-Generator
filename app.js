@@ -10,6 +10,36 @@ const fs = require('fs');
 // Create an empty array that the team members will be added to
 const team = [];
 // let user_specs = ``;
+const is_yes_or_no = async (input) => {
+    if (input !== 'y' || input !== 'n') {
+       return 'Incorrect asnwer';
+    }
+    return true;
+ };
+
+ // let user_specs = ``;
+const is_string = async (input) => {
+    if (!input.match(/^[0-9a-z]+$/)){
+        return true;
+    }
+    else {
+        return false;
+    }
+ };
+
+// async function is_string (input) {
+//     // if (typeof input !== "string") {
+//     //    return 'Please Type in Valid Name (No Special Characters or Numbers';
+//     // }
+//     // return true;
+//     if (!input.match(/^[0-9a-z]+$/)){
+//         return true;
+//     }
+//     else {
+//         return false;
+//     }
+//  };
+
 
 // Ask Questions for the Manager Only
 async function start_questions() {
@@ -20,7 +50,6 @@ async function start_questions() {
             name: "password",
             message: "Enter 'admin' password for access to Team Profile Generator?",
             mask: "*"
-            // [,filter]
         },
         {
             type: "input",
