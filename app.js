@@ -12,36 +12,49 @@ async function start_questions() {
     inquirer.prompt([
         // Ask user to input name
         {
+            type: "password",
+            name: "password",
+            message: "Enter 'admin' password for access to Team Profile Generator?",
+            mask: "*"
+            // [,filter]
+        },
+        {
             type: "input",
             name: "name",
-            message: "What is your name (Manager)?"
+            message: "\n<<<Access Granted>>>\n\n<Create Manager>\n\nWhat is your name (Manager)?",
+            when: (data) => data.password === 'admin'
         },
         // Ask user to input email
         {
             type: "input",
             name: "email",
-            message: "What is your email address?"
+            message: "\nWhat is your email address?",
+            when: (data) => data.password === 'admin'
         },
         // Ask user to input id
         {
             type: "input",
             name: "id",
-            message: "What is your ID number?"
+            message: "\nWhat is your ID number?",
+            when: (data) => data.password === 'admin'
         },
         // Ask user to input office number
         {
             type: "input",
             name: "office_number",
-            message: "What is your office number?",
+            message: "\nWhat is your office number?",
+            when: (data) => data.password === 'admin'
         },
         // Ask user to input team name
         {
             type: "input",
             name: "team_name",
-            message: "What do you want as your team name?",
+            message: "\nWhat do you want as your team name?",
+            when: (data) => data.password === 'admin'
         },
         // Then Once those choices have been made
     ]).then(async function (data) {
+        const password = data.password;
         // Assign Manager Name to Variable
         const name = data.name;
         // Assign Manager Email to Variable
@@ -64,10 +77,19 @@ async function start_questions() {
         const new_manager = new Create_Team_Member(name, email, id, role, office_number, manager_i, manager_bg_color, manager_modifier, team_name);
         // Add the Manager Object to the team array
         await team.push(new_manager);
-        // Print the Team in this current moment
-        print(team)
+
         // Start the questions for the employees that will loop back around as long as you would like it to
-        await loop_questions();
+        if (password === "admin") {
+            // Print the Team in this current moment
+            // print(team)
+            print(`\n<<<Team Created>>>\n`)
+            print(`<<<Manager Created>>>\n`)
+            await loop_questions();
+        }
+        else {
+            ("You do not have access to create a team")
+        }
+
     })
 
 };
@@ -77,30 +99,31 @@ start_questions();
 
 // Initiate terminal based user interface
 async function loop_questions() {
+    print("<Create Employee>")
     inquirer.prompt([
         // Ask user to input username
         {
             type: "input",
             name: "name",
-            message: "What is your name (Employee)?"
+            message: "\nWhat is your name (Employee)?"
         },
         // Ask user to input name
         {
             type: "input",
             name: "email",
-            message: "What is your email address?"
+            message: "\nWhat is your email address?"
         },
         // Ask user to input id
         {
             type: "input",
             name: "id",
-            message: "What is your ID number?"
+            message: "\nWhat is your ID number?"
         },
         // Ask user to input role
         {
             type: "rawlist",
             name: "role",
-            message: "What is your role in the team?",
+            message: "\nWhat is your role in the team?",
             choices: [
                 "Engineer",
                 "Intern"]
@@ -109,21 +132,21 @@ async function loop_questions() {
         {
             type: "input",
             name: "school",
-            message: "What school are you attending?",
+            message: "\nWhat school are you attending?",
             when: (data) => data.role === 'Intern'
         },
         // Ask user to input username for Engineers
         {
             type: "input",
             name: "username",
-            message: "What is your GitHub username?",
+            message: "\nWhat is your GitHub username?",
             when: (data) => data.role === 'Engineer'
         },
         // Ask user if they would like to add another memeber
         {
             type: "confirm",
             name: "new_member",
-            message: "Would you like to add another member?"
+            message: "\nWould you like to add another member?"
         },
         // Then Once those choices have been made
     ]).then(async function (data) {
@@ -138,6 +161,8 @@ async function loop_questions() {
         // Assign Employee school to Variable
         const school = data.school;
         // Assign Employee username to Variable
+        const username_url = `https://github.com/livingkurt/${data.username}`;
+        // Assign Employee username to Variable
         const username = data.username;
         // Assign the new member outcome to Variable
         const new_member = data.new_member;
@@ -147,8 +172,8 @@ async function loop_questions() {
             const intern_i = `<i class="fas fa-graduation-cap"></i>`
             // Assign Intern Bg Color to Variable
             const intern_bg_color = `card_d_i`
-             // Assign Intern Modifier to Variable
-            const intern_modifier = `Office Number: `
+            // Assign Intern Modifier to Variable
+            const intern_modifier = `School: `
             // Create an Object for Intern
             const new_intern = new Create_Team_Member(name, email, id, role, school, intern_i, intern_bg_color, intern_modifier);
             // Add the Intern Object to the team array
@@ -172,6 +197,7 @@ async function loop_questions() {
         }
         // If the user chooses to add another team member
         if (new_member) {
+            print(`\n<<<Employee Created>>>\n`)
             // Start employee questions again
             await loop_questions()
         }
@@ -179,11 +205,14 @@ async function loop_questions() {
         else if (new_member === false) {
             // Loop through team array and create html from that infomation
             await loop_through_array(team)
-            print("Done")
+            
+            await setTimeout(finish_html, 2000);
+            // await Task.Delay(5000);
             // await finish_html();
         }
     })
 };
+
 
 // Loop through team array and create html from that infomation
 async function loop_through_array() {
@@ -210,8 +239,6 @@ async function loop_through_array() {
         // Add all employee information to html file
         await append_html(name, email, id, role, icon, background_color, modifier, user_specs)
     }
-    // Add the ending tags to html
-    await finish_html();
 }
 
 // Object Creator for each new employee member
@@ -320,6 +347,8 @@ async function finish_html() {
             print(error)
         }
     });
+    print("\n<<<Team Has Been Created>>>\n")
+    print("\n<<<Done>>>")
 
 }
 

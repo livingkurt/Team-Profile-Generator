@@ -27,20 +27,7 @@ main {
     margin-bottom: 50px;
 }
 
-/* full_container_d {
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-
-} */
-
-#container_d {
-    display: flex;
-    margin: 30px 0px;
-    /* justify-content: space-evenly; */
-}
 h1 {
-    /* margin-bottom: 50px; */
     padding: 50px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-top: 2px solid #dadada;
@@ -50,25 +37,6 @@ h1 {
     font-size: 58px;
     
 }
-
-    /* display: flex; */
-    /* min-height: 70vh; */
-    /* flex-direction: column; */
-    /* height: 0px; */
-    /* background: black; */
-    /* bottom: 0; */
-    /* color: white; */
-    /* display: flex; */
-    /* grid-row: 2; */
-    /* height: 80px; */
-    /* position: absolute; */
-    /* width: 100%; */
-    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
-    /* border-top: 2px solid #dadada; */
-    /* background-color: #6d6d6d; */
-    /* position: absolute; */
-    /* bottom: 0; */
-    /* width: 100%; */
 
 h2 {
     color: white;
@@ -82,44 +50,14 @@ i {
     margin-right: 10px;
 }
 
-footer {
-    /* flex: 1; */
-    /* height: 50px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  background-color: #00A;
-  z-index: 150; */
-    /* position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    overflow: hidden;
-    margin-bottom: 0px; */
-    /* background: black;    */
-    /* bottom: 0;
-    color: white;
+#container_d {
     display: flex;
-    grid-row: 2;
-    height: 80px;
-    position: absolute;
-    width: 100%; */
-    /* padding: 75px; */
-    /* position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 225px;
-    width: 100%;
-    overflow: hidden; */
-
+    margin: 30px 0px;
 }
 
 #card_header_d {
     width: 200px;
     padding: 20px;
-    /* margin: 10px; */
-    /* background-color: rgb(179, 213, 236); */
-    
     border-radius: 10px;
 }
 
@@ -147,9 +85,6 @@ footer {
 
 
 #card_body_d {
-    /* margin: 20px; */
-    /* padding: 20px; */
-    /* background-color: #f3f3f3; */
     background-color: #f6f7f8;
     border-radius: 0px 0px 10px 10px;
     width: 250px;
@@ -168,7 +103,6 @@ footer {
 .info_d {
     padding: 10px;
     border-bottom: 1px #dadada solid;
-    /* border: 1px #dadada solid; */
     background-color: white;
 }
 
