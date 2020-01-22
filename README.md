@@ -1,7 +1,7 @@
 # Team-Profile-Generator
 
 
-![Developer-Profile-Generator](images/pic.png)
+
 
  [Link to Sample of HTML](https://livingkurt.github.io/Team-Profile-Generator/.)
 
@@ -48,3 +48,7 @@ Then produces a sleek and clean pdf of all your github user information to be us
     * Then it will repeat the questions given to create a employee
 * If you type no
     * Then it will create a team.html file in the output folder with all of the information that was asked of you
+
+Sample Screenshot
+
+![Developer-Profile-Generator](images/pic.png)
